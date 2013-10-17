@@ -181,7 +181,17 @@ public class LSML extends JFrame{
 
    public LSML(){
       super(PROGRAM_FNAME + VERSION_STRING);
+      
+      Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+         @Override
+         public void uncaughtException(Thread t, Throwable e) {
+             System.out.println("Exception in " + t);
+             System.out.println("Cause: " + e.getClass().getName());
+             e.printStackTrace();
+         }
+     });
 
+      
       final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
       final EquipmentPane equipmentPane = new EquipmentPane(desktop, this, xBar);
       final JScrollPane jScrollPane = new JScrollPane(equipmentPane);

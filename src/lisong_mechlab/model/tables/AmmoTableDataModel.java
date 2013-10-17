@@ -65,7 +65,7 @@ public class AmmoTableDataModel extends AbstractTableModel implements MessageXBa
    public void initialiseLists(){
       weaponColumn = new TreeMap<>();
       ammoQuantityColumn = new TreeMap<>();
-      volleyAmountColumn = new TreeMap<>();
+  //    volleyAmountColumn = new TreeMap<>();
       numberVolleyColumn = new TreeMap<>();
       combatColumn = new TreeMap<>();
       srmCooldownList = new ArrayList<>();
