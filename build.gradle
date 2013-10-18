@@ -23,7 +23,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.thoughtworks.xstream:xstream:1.4.4', 'jfreechart:jfreechart:1.0.0'
+    compile 'com.thoughtworks.xstream:xstream:1.4.4', 'jfreechart:jfreechart:1.0.0', 'javax.mail:mail:1.5.0-b01'
     testCompile 'junit:junit:4.+', 'org.mockito:mockito-core:1.9.5'
 }
 
@@ -67,7 +67,7 @@ launch4j {
    jar = jarName
    dontWrapJar = true
    icon = project.rootDir.toString() + "//build//icon.ico"
-   manifest = "lsml.manifest"
+   manifest = project.rootDir.toString() + "//build//lsml.manifest"
 
 
 }
@@ -94,8 +94,8 @@ task createInstaller (dependsOn: [jar, copyInstaller, buildLight, buildCandle]) 
    println ('BuildingInstaller...')
 }
 
-
-
+copyInstaller.mustRunAfter jar 
+buildLight.mustRunAfter copyInstaller
 buildLight.mustRunAfter buildCandle
 
 
