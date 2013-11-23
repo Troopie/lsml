@@ -19,24 +19,21 @@
 //@formatter:on
 package lisong_mechlab.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import lisong_mechlab.model.chassi.HardpointType;
+import lisong_mechlab.model.item.ItemDB;
+import lisong_mechlab.model.item.Weapon;
+import lisong_mechlab.view.render.StyleManager;
+
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
-
-import lisong_mechlab.model.chassi.HardpointType;
-import lisong_mechlab.model.item.ItemDB;
-import lisong_mechlab.model.item.Weapon;
-import lisong_mechlab.view.render.StyleManager;
 
 /**
  * This class is a JTable which shows statistics for weapons.
@@ -58,6 +55,7 @@ public class WeaponStatsTable extends JTable{
                weapons.add(weapon);
             }
          }
+          Collections.sort(weapons, Weapon.WEAPON_TYPE_DAMAGE_ORDER);
       }
 
       @Override

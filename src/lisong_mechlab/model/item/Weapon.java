@@ -5,6 +5,8 @@ import lisong_mechlab.model.loadout.Loadout;
 import lisong_mechlab.model.loadout.Upgrades;
 import lisong_mechlab.model.mwo_parsing.helpers.ItemStatsWeapon;
 
+import java.util.Comparator;
+
 public class Weapon extends HeatSource{
    public static final int RANGE_ULP_FUZZ = 5;
 
@@ -146,4 +148,23 @@ public class Weapon extends HeatSource{
    public boolean isEquippableOn(Loadout aLoadout){
       return aLoadout.getChassi().getHardpointsCount(getHardpointType()) > 0;
    }
+
+
+
+    /**
+     * Should compare the Weapon first by the Type then by damage output.
+     */
+     public static final Comparator<Weapon> WEAPON_TYPE_DAMAGE_ORDER = new Comparator<Weapon>() {
+         @Override
+         public int compare(Weapon o1, Weapon o2) {
+             int comparedClassNames = o1.getClass().getName().compareTo(o2.getClass().getName());
+             Double o1DPShot = o1.getDamagePerShot();
+             Double o2DPShot = o2.getDamagePerShot();
+
+             if(comparedClassNames != 0){
+                 return comparedClassNames;
+             }
+             return (o1DPShot < o2DPShot) ? -1 : (o1DPShot == o2DPShot) ? 0 : 1;
+         }
+     };
 }
