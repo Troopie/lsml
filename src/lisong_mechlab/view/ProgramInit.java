@@ -1,25 +1,19 @@
 package lisong_mechlab.view;
 
-import java.awt.Color;
-import java.awt.DisplayMode;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.util.Date;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-
+import com.sun.jna.Native;
+import com.sun.jna.NativeLong;
+import com.sun.jna.WString;
+import com.sun.jna.ptr.PointerByReference;
 import lisong_mechlab.model.chassi.Chassi;
 import lisong_mechlab.model.chassi.ChassiDB;
 import lisong_mechlab.model.item.Item;
 import lisong_mechlab.model.item.ItemDB;
 import lisong_mechlab.model.loadout.export.LsmlProtocolIPC;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.Date;
+
 
 /**
  * This class handles the initial program startup. Things that need to be done before the {@link LSML} instance is
@@ -30,6 +24,8 @@ import lisong_mechlab.model.loadout.export.LsmlProtocolIPC;
 public class ProgramInit extends JFrame{
    private static final long  serialVersionUID   = -2877785947094537320L;
    private static final long  MIN_SPLASH_TIME_MS = 20;
+    private static native NativeLong SetCurrentProcessExplicitAppUserModelID(WString appID);
+    private static native NativeLong GetCurrentProcessExplicitAppUserModelID(PointerByReference appID);
    private static ProgramInit instance;
    private static LSML        instanceL;
    public static Image        programIcon;
@@ -131,6 +127,8 @@ public class ProgramInit extends JFrame{
    }
 
    public static void main(final String[] args) throws Exception{
+
+       setCurrentProcessExplicitAppUserModelID(ProgramInit.class.getName());
       // Started with an argument, it's likely a LSML:// protocol string, send it over the IPC and quit.
       if( args.length > 0 ){
          if( LsmlProtocolIPC.sendLoadout(args[0]) )
@@ -166,6 +164,20 @@ public class ProgramInit extends JFrame{
          }
       });
    }
+
+
+
+    public static void setCurrentProcessExplicitAppUserModelID(final String appID)
+    {
+        if (SetCurrentProcessExplicitAppUserModelID(new WString(appID)).longValue() != 0)
+            throw new RuntimeException("unable to set current process explicit AppUserModelID to: " + appID);
+    }
+
+
+    static
+    {
+        Native.register("shell32");
+    }
 
    public static LSML lsml(){
       return instanceL;
