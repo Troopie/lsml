@@ -164,7 +164,7 @@ public class Weapon extends HeatSource{
              if(comparedClassNames != 0){
                  return comparedClassNames;
              }
-             return (o1DPShot < o2DPShot) ? -1 : (o1DPShot == o2DPShot) ? 0 : 1;
+             return (o1DPShot > o2DPShot) ? -1 : (o1DPShot == o2DPShot) ? 0 : 1;
          }
      };
 }
